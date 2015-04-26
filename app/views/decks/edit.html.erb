@@ -9,6 +9,7 @@
     deck_array = JSON.parse(deck_string);
   }
 </script>
-  
+
+<%= link_to 'Analyze', analyze_path(@deck) %> |   
 <%= link_to 'Show', @deck %> |
 <%= link_to 'Back', decks_path %>
