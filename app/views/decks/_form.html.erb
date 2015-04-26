@@ -21,7 +21,7 @@
   </div>
   <div class="field">
     <%= f.label :contents %><br>
-    <%= f.text_field :contents %>
+    <%= f.hidden_field :contents %>
   </div>
   <div class="field">
     <%= f.label :notes %><br>
@@ -43,5 +43,14 @@
 <script>
   $(document).ready(function(){
     deck_interface_edit('div.deck_add','div.deck_list');
+    
+    // add persistence json on form submission
+    $('form.edit_deck, form.new_deck').on('submit', function(){
+        var deck_json = JSON.stringify(deck_array);
+        if(deck_json){
+          $('input#deck_contents').val(deck_json);
+        }
+    });
   });
+  
 </script>
