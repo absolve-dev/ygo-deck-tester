@@ -12,6 +12,7 @@ ul.deck_list{
 
 li.deck_list_card{
   width: 100%;
+  height:30px;
   padding: 5px;
   border: 1px solid black;
   list-style-type: none;
@@ -35,6 +36,18 @@ li.deck_list_card.trap{
   background-color:purple;
 }
 
+/* plus/minus */
+div.quantity_buttons{
+  display:inline;
+  height:100%;
+  margin-right: 5px;
+}
+
+div.quantity_buttons button{
+  width: 30px;
+  height: 30px;
+}
+
 /* remove card styling */
 
 div.remove_card{
@@ -43,6 +56,7 @@ div.remove_card{
   border: 1px solid black;
   margin-left: 20px;
   cursor: pointer;
+  display: block;
 }
 
 /* add card form styling */
