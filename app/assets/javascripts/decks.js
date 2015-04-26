@@ -88,7 +88,9 @@ function deck_interface_show(list_selector){
 }
 
 function deck_interface_analyze(list_selector, find_selector){
-  
+  refresh_deck_list(list_selector, false);
+  $('ul.deck_list').sortable();
+  $(find_selector).droppable();
 }
 
 

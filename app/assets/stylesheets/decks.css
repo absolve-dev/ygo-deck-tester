@@ -1,7 +1,10 @@
 /*
  *= require jquery-ui/sortable
+ *= require jquery-ui/droppable
  */
 
+
+/* deck list */
 div.deck_list{
   width: 500px;
 }
@@ -57,12 +60,4 @@ div.remove_card{
   margin-left: 20px;
   cursor: pointer;
   display: block;
-}
-
-/* add card form styling */
-
-form.add_card{
-  border: 1px solid black;
-  display: inline-block;
-  padding: 10px;
 }
