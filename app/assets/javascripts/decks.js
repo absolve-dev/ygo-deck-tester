@@ -88,7 +88,7 @@ function deck_interface_show(list_selector){
 }
 
 function deck_interface_analyze(list_selector, find_selector){
-
+  
 }
 
 
@@ -125,25 +125,88 @@ function refresh_deck_list(list_selector, mutable){
     card_type = (deck_array[key].type).toLowerCase();
     $(card_li).addClass(card_type);
     
-    
     // add logic for no immutable
     if(mutable){
-      // add plus/minus buttons
-    
+      // quantity buttons div
+      var quantity_div = document.createElement('div');
+      $(quantity_div).addClass('quantity_buttons');
+      
+      // remove quantity button
+      var remove_quantity_button = document.createElement('button');
+      $(remove_quantity_button).addClass('remove_quantity');
+      $(remove_quantity_button).addClass('quantity_button');
+      $(remove_quantity_button).html('-');
+      
+      // add card ID
+      $(remove_quantity_button).attr('card_id', key);
+
+      // if quantity is one, remove the card altogether
+      if(deck_array[key].quantity == 1){
+        $(remove_quantity_button).on( 'click', function(){
+          remove_card_from_deck($(this).attr('card_id'), list_selector);
+        });
+      }else{
+        $(remove_quantity_button).on( 'click', function(){
+          remove_card_quantity($(this).attr('card_id'), list_selector);
+        });
+      }
+      $(quantity_div).append(remove_quantity_button);
+      
+      // add quantity button
+      var add_quantity_button = document.createElement('button');
+      $(add_quantity_button).addClass('add_quantity');
+      $(add_quantity_button).addClass('quantity_button');
+      $(add_quantity_button).html('+');
+      
+      // add card ID
+      $(add_quantity_button).attr('card_id', key);
+
+      // do not allow add if quantity is max (3)
+      if(deck_array[key].quantity == 3){
+        add_quantity_button.disabled = true;
+      }else{
+        $(add_quantity_button).on( 'click', function(){
+          add_card_quantity($(this).attr('card_id'), list_selector);
+        });
+      }
+      $(quantity_div).append(add_quantity_button);
+            
+      $(card_li).prepend(quantity_div);
+      
       // add card removal button and hook
       var remove_button = create_remove_button(key);
       $(remove_button).on( 'click', function(){
-        remove_card_from_deck(this, list_selector);
+        remove_card_from_deck($(this).attr('card_id'), list_selector);
       });
       $(card_li).append(remove_button);
-    
+      
+      $(deck_ul).sortable();
     }
     $(deck_ul).append(card_li);
-  });
+  });  
   
-  $(deck_ul).sortable();  
   $(list_selector).html( deck_ul );
   
+}
+
+function add_card_to_deck(card, list_selector){
+  // add card to deck_array
+  deck_array.push(card);
+  
+  // refresh deck after add
+  refresh_deck_list(list_selector, true);
+}
+
+// add a copy of a card
+function add_card_quantity(card_id, list_selector){
+  deck_array[card_id].quantity += 1;
+  refresh_deck_list(list_selector, true);
+}
+
+// remove a copy of a card
+function remove_card_quantity(card_id, list_selector){
+  deck_array[card_id].quantity -= 1;
+  refresh_deck_list(list_selector, true);
 }
 
 // creates a remove button
@@ -163,19 +226,10 @@ function create_remove_button(card_id){
 }
 
 // list selector passed by refresh_deck_list
-function remove_card_from_deck(remove_button, list_selector){
+function remove_card_from_deck(remove_id, list_selector){
   // remove from deck_array
-  deck_array.splice($(remove_button).attr('card_id'), 1);
-  console.log($(remove_button).attr('card_id'));
+  deck_array.splice(remove_id, 1);
   
   // refresh after removal
-  refresh_deck_list(list_selector);
-}
-
-function add_card_to_deck(card, list_selector){
-  // add card to deck_array
-  deck_array.push(card);
-  
-  // refresh deck after add
-  refresh_deck_list(list_selector);
+  refresh_deck_list(list_selector, true);
 }
