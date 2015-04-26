@@ -1,0 +1,54 @@
+/*
+ *= require jquery-ui/sortable
+ */
+
+div.deck_list{
+  width: 500px;
+}
+ 
+ul.deck_list{
+  padding: 0px;
+}
+
+li.deck_list_card{
+  width: 100%;
+  padding: 5px;
+  border: 1px solid black;
+  list-style-type: none;
+  background-color: white;
+  display: inline-block;
+}
+
+h3.card_quantity{
+  display:inline;
+  padding-right:10px;
+}
+
+/* add coloring for card types */
+li.deck_list_card.monster{
+  background-color:brown;
+}
+li.deck_list_card.spell{
+  background-color:green;
+}
+li.deck_list_card.trap{
+  background-color:purple;
+}
+
+/* remove card styling */
+
+div.remove_card{
+  padding: 5px;
+  float: right;
+  border: 1px solid black;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+/* add card form styling */
+
+form.add_card{
+  border: 1px solid black;
+  display: inline-block;
+  padding: 10px;
+}
