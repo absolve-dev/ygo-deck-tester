@@ -20,5 +20,24 @@
   <%= @deck.notes %>
 </p>
 
+<div class="deck_list">
+
+</div>
+
+<script>
+  
+  var deck_array = [];
+  
+  var deck_string = '<%= raw @deck.contents %>';
+  if(deck_string){
+    deck_array = JSON.parse(deck_string);
+  }
+  
+  $(document).ready(function(){
+    deck_interface_show('div.deck_list');
+  });
+  
+</script>
+
 <%= link_to 'Edit', edit_deck_path(@deck) %> |
 <%= link_to 'Back', decks_path %>

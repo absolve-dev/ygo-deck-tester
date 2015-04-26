@@ -84,7 +84,7 @@ function deck_interface_edit(add_selector, list_selector){
 // show function start
 
 function deck_interface_show(list_selector){
-  
+  refresh_deck_list(list_selector, false);
 }
 
 function deck_interface_analyze(list_selector, find_selector){
@@ -125,17 +125,20 @@ function refresh_deck_list(list_selector, mutable){
     card_type = (deck_array[key].type).toLowerCase();
     $(card_li).addClass(card_type);
     
-    // add plus/minus buttons
     
-    // add card removal button and hook
-    var remove_button = create_remove_button(key);
-    $(remove_button).on( 'click', function(){
-      remove_card_from_deck(this, list_selector);
-    });
-    $(card_li).append(remove_button);
+    // add logic for no immutable
+    if(mutable){
+      // add plus/minus buttons
     
+      // add card removal button and hook
+      var remove_button = create_remove_button(key);
+      $(remove_button).on( 'click', function(){
+        remove_card_from_deck(this, list_selector);
+      });
+      $(card_li).append(remove_button);
+    
+    }
     $(deck_ul).append(card_li);
-    
   });
   
   $(deck_ul).sortable();  
