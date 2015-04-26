@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :decks
+  get 'decks/:id/analyze' => 'decks#analyze', as: :analyze
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

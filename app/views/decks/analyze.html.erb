@@ -1,0 +1,11 @@
+<h1>Analyze Deck</h1>
+
+<script>
+  var deck_array = [];
+  var deck_string = '<%= raw @deck.contents %>';
+  if(deck_string){
+    deck_array = JSON.parse(deck_string);
+  }
+</script>
+
+<%= link_to 'Back', decks_path %>

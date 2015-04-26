@@ -1,5 +1,5 @@
 class DecksController < ApplicationController
-  before_action :set_deck, only: [:show, :edit, :update, :destroy]
+  before_action :set_deck, only: [:show, :edit, :update, :destroy, :analyze]
 
   # GET /decks
   # GET /decks.json
@@ -60,7 +60,19 @@ class DecksController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  
+  # GET /decks/1/analyze
+  # GET /decks/1/analyze.json
+  def analyze
+    respond_to do |format|
+      format.html { render :analyze }
+      format.json do
+        
+        render json: result
+      end
+    end
+  end
+    
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_deck
