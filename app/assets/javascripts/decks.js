@@ -1,5 +1,6 @@
 // assumes deck_array is global
 //= require jquery-ui/sortable
+//= require jquery-ui/droppable
 
 // edit function start
 
@@ -89,8 +90,17 @@ function deck_interface_show(list_selector){
 
 function deck_interface_analyze(list_selector, find_selector){
   refresh_deck_list(list_selector, false);
-  $('ul.deck_list').sortable();
-  $(find_selector).droppable();
+  $('ul.deck_list').sortable({
+    connectWith: find_selector
+  });
+  
+  $(find_selector).droppable({
+    accept: 'li.deck_list_card',
+    hoverClass: 'analyze_hover',
+    drop: function(event, ui){
+      var card_id = $(ui.draggable).attr('card_id');
+    }
+  });
 }
 
 
@@ -182,11 +192,25 @@ function refresh_deck_list(list_selector, mutable){
       });
       $(card_li).append(remove_button);
       
-      $(deck_ul).sortable();
     }
     $(deck_ul).append(card_li);
   });  
   
+  $(deck_ul).sortable({    
+        start: function(e, ui) {
+          // creates a temporary attribute on the element with the old index
+          $(this).attr('data-previndex', ui.item.index());
+        },
+        update: function(e, ui) {
+          // gets the new and old index then removes the temporary attribute
+          var newIndex = ui.item.index();
+          var oldIndex = $(this).attr('data-previndex');
+          $(this).removeAttr('data-previndex');
+          console.log(oldIndex + ' ' + newIndex);
+          change_position_in_deck(oldIndex, newIndex);
+        }    
+      });
+      
   $(list_selector).html( deck_ul );
   
 }
@@ -197,6 +221,10 @@ function add_card_to_deck(card, list_selector){
   
   // refresh deck after add
   refresh_deck_list(list_selector, true);
+}
+
+function add_card_to_analyze(card_id){
+  
 }
 
 // add a copy of a card
@@ -234,4 +262,8 @@ function remove_card_from_deck(remove_id, list_selector){
   
   // refresh after removal
   refresh_deck_list(list_selector, true);
+}
+
+function change_position_in_deck(old_id, new_id){
+  deck_array.splice(new_id, 0, deck_array.splice(old_id, 1)[0]);
 }
