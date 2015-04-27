@@ -96,6 +96,8 @@ function deck_interface_show(list_selector){
 
 function deck_interface_analyze(list_selector, find_selector){
   refresh_deck_list(list_selector, false);
+  refresh_analyze_list(find_selector, list_selector);
+  
   $('ul.deck_list').sortable({
     connectWith: find_selector
   });
@@ -210,15 +212,14 @@ function refresh_deck_list(list_selector, mutable){
 
 function refresh_analyze_list(analyze_selector, deck_list_selector){
   var h3 = document.createElement('h3');
-  $(h3).html('Enter combo pieces here (AND)');
+  $(h3).html('Enter combo pieces here - (AND)');
+  $(h3).addClass('analyze_intro');
   
-  // create intro LI
-  var intro_li = document.createElement('li');
-  $(intro_li).html('Add desired cards in this box (OR)');
-  $(intro_li).addClass('analyze_intro');
+  
   
   $(analyze_selector).html('');
-
+  $(analyze_selector).append(h3);
+  
   // check for contents
   if(analyze_array.length > 0){
     Object.keys(analyze_array).forEach(function(analyze_key){
@@ -231,7 +232,14 @@ function refresh_analyze_list(analyze_selector, deck_list_selector){
         
         // add ul index in relation to analyze_array
         $(current_ul).attr('analyze_key', analyze_key);
-    
+        
+        // create intro LI
+        var intro_li = document.createElement('li');
+        $(intro_li).html('Add desired cards in this box (OR)');
+        $(intro_li).addClass('analyze_intro');
+        // add intro LI
+        $(current_ul).append(intro_li);
+        
         Object.keys(analyze_array[analyze_key]).forEach(function(key){
           var current_li = create_card_li(analyze_array[analyze_key][key],key);
           
@@ -246,6 +254,7 @@ function refresh_analyze_list(analyze_selector, deck_list_selector){
         
         $(current_ul).droppable({
           greedy:true,
+          items: 'li:not(.analyze_intro)',
           accept: 'li.deck_list_card',
           hoverClass: 'analyze_hover',
           drop: function(event, ui){

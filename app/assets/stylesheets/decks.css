@@ -67,10 +67,26 @@ div.deck_analyze{
   min-width:400px;
   display:inline-block;
 }
+h3.analyze_intro{
+  text-align: center;
+  padding: 5px;
+  margin: 0px;
+  border: 1px solid black;
+  background-color: #AFC4DB;
+}
 ul.analyze_or{
   background-color:lightblue;
   padding:15px;
   border:2px solid black;
+}
+li.analyze_intro{
+  max-width: 100%;
+  padding: 5px;
+  border: 1px solid black;
+  list-style-type: none;
+  background-color: white;
+  display: block;
+  text-align:center;
 }
 
 .deck_analyze.analyze_hover, .analyze_or.analyze_hover{
