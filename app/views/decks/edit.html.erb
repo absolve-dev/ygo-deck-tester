@@ -1,14 +1,18 @@
 <h1>Editing Deck</h1>
 
-<%= render 'form' %>
-
 <script>
   var deck_array = [];
-  var deck_string = '<%= raw @deck.contents %>';
-  if(deck_string){
-    deck_array = JSON.parse(deck_string);
-  }
+  $(document).ready(function(){
+    
+    var deck_string = '<%= raw @deck.contents %>';
+    if(deck_string){
+      deck_array = JSON.parse(deck_string);
+    }
+  });
 </script>
+
+<%= render 'form' %>
+
 
 <%= link_to 'Analyze', analyze_path(@deck) %> |   
 <%= link_to 'Show', @deck %> |
