@@ -1,6 +1,7 @@
-// assumes deck_array is global
 //= require jquery-ui/sortable
 //= require jquery-ui/droppable
+
+// assumes deck_array is global
 
 // edit function start
 
@@ -79,14 +80,19 @@ function deck_interface_edit(add_selector, list_selector){
   
 }
 
-// edit helper functions
-
-
 // show function start
 
 function deck_interface_show(list_selector){
   refresh_deck_list(list_selector, false);
 }
+
+// analyze function start
+
+// assume analyze_array is global
+// [ [a, b, c], [d, e], [f] ]
+// arrays within array
+// inner arrays have ORs
+// outer array contains combo parts
 
 function deck_interface_analyze(list_selector, find_selector){
   refresh_deck_list(list_selector, false);
@@ -95,17 +101,24 @@ function deck_interface_analyze(list_selector, find_selector){
   });
   
   $(find_selector).droppable({
+    greedy:true,
     accept: 'li.deck_list_card',
     hoverClass: 'analyze_hover',
     drop: function(event, ui){
       var card_id = $(ui.draggable).attr('card_id');
+      var card_copy = $.extend({key:card_id}, deck_array[card_id]);
+      
+      analyze_array.push([card_copy]);
+      
+      // remove card from deck list
+      remove_card_from_deck(card_id, list_selector, true);
+      
+      refresh_analyze_list(find_selector, list_selector);
     }
   });
 }
 
-
-// helper functions
-
+// refresh functions
 
 // mutable is true or false, passed by the calling function, determines whether edit functions are enabled
 function refresh_deck_list(list_selector, mutable){
@@ -117,25 +130,7 @@ function refresh_deck_list(list_selector, mutable){
   // add cards
   Object.keys(deck_array).forEach(function(key){
     // create card li
-    var card_li = document.createElement('li');
-    $(card_li).addClass('deck_list_card');
-    
-    // add card li contents
-    // create h3 for card quantity
-    var h3 = document.createElement('h3');
-    $(h3).addClass('card_quantity');
-    $(h3).html(deck_array[key].quantity);
-    
-    $(card_li).html(deck_array[key].name);
-    $(card_li).prepend(h3);
-    
-    // add card ID
-    $(card_li).attr('card_id', key);
-    
-    // add card type to style
-    // must make card type lowercase
-    card_type = (deck_array[key].type).toLowerCase();
-    $(card_li).addClass(card_type);
+    var card_li = create_card_li(deck_array[key],key);
     
     // add logic for no immutable
     if(mutable){
@@ -195,32 +190,117 @@ function refresh_deck_list(list_selector, mutable){
     }
     $(deck_ul).append(card_li);
   });  
+  $(deck_ul).sortable({
+    // add manual sorting    
+    start: function(e, ui) {
+      // creates a temporary attribute on the element with the old index
+      $(this).attr('data-previndex', ui.item.index());
+    },
+    update: function(e, ui) {
+      // gets the new and old index then removes the temporary attribute
+      var newIndex = ui.item.index();
+      var oldIndex = $(this).attr('data-previndex');
+      $(this).removeAttr('data-previndex');
+      change_position_in_deck(oldIndex, newIndex);
+      refresh_deck_list(list_selector, mutable);
+    }    
+  });
+  $(list_selector).html( deck_ul );  
+}
+
+function refresh_analyze_list(analyze_selector, deck_list_selector){
+  var h3 = document.createElement('h3');
+  $(h3).html('Enter combo pieces here (AND)');
   
-  $(deck_ul).sortable({    
-        start: function(e, ui) {
-          // creates a temporary attribute on the element with the old index
-          $(this).attr('data-previndex', ui.item.index());
-        },
-        update: function(e, ui) {
-          // gets the new and old index then removes the temporary attribute
-          var newIndex = ui.item.index();
-          var oldIndex = $(this).attr('data-previndex');
-          $(this).removeAttr('data-previndex');
-          console.log(oldIndex + ' ' + newIndex);
-          change_position_in_deck(oldIndex, newIndex);
-        }    
-      });
+  // create intro LI
+  var intro_li = document.createElement('li');
+  $(intro_li).html('Add desired cards in this box (OR)');
+  $(intro_li).addClass('analyze_intro');
+  
+  $(analyze_selector).html('');
+
+  // check for contents
+  if(analyze_array.length > 0){
+    Object.keys(analyze_array).forEach(function(analyze_key){
       
-  $(list_selector).html( deck_ul );
+      //check for validity and contents
+      if( Array.isArray(analyze_array[analyze_key]) && analyze_array[analyze_key].length > 0 ){
+        // create a new UL for each
+        var current_ul = document.createElement('ul');
+        $(current_ul).addClass('analyze_or');
+        
+        // add ul index in relation to analyze_array
+        $(current_ul).attr('analyze_key', analyze_key);
+    
+        Object.keys(analyze_array[analyze_key]).forEach(function(key){
+          var current_li = create_card_li(analyze_array[analyze_key][key],key);
+          
+          var remove_button = create_remove_button(key);
+          $(remove_button).on( 'click', function(){
+            remove_card_from_analyze(analyze_key, key, analyze_array[analyze_key][key], analyze_selector, deck_list_selector);
+          });
+          $(current_li).append(remove_button);
+          
+          $(current_ul).append(current_li);
+        });
+        
+        $(current_ul).droppable({
+          greedy:true,
+          accept: 'li.deck_list_card',
+          hoverClass: 'analyze_hover',
+          drop: function(event, ui){
+            var card_id = $(ui.draggable).attr('card_id');
+            var card_copy = $.extend({key:card_id}, deck_array[card_id]);
+        
+            analyze_array[$(this).attr('analyze_key')].push(card_copy);
+            
+            // remove card from deck list
+            remove_card_from_deck(card_id, deck_list_selector, true);
+      
+            refresh_analyze_list(analyze_selector, deck_list_selector);
+          }
+        });
+        
+        $(analyze_selector).append(current_ul);
+      }
+      
+    });
+  }
   
 }
 
-function add_card_to_deck(card, list_selector){
+// helper functions
+
+function create_card_li(card,key){
+  var card_li = document.createElement('li');
+  $(card_li).addClass('deck_list_card');
+  
+  // add card li contents
+  // create h3 for card quantity
+  var h3 = document.createElement('h3');
+  $(h3).addClass('card_quantity');
+  $(h3).html(card.quantity);
+  
+  $(card_li).html(card.name);
+  $(card_li).prepend(h3);
+  
+  // add card ID
+  $(card_li).attr('card_id', key);
+  
+  // add card type to style
+  // must make card type lowercase
+  card_type = (card.type).toLowerCase();
+  $(card_li).addClass(card_type);
+  
+  return card_li;
+}
+
+function add_card_to_deck(card, list_selector, immutable){
   // add card to deck_array
   deck_array.push(card);
   
   // refresh deck after add
-  refresh_deck_list(list_selector, true);
+  refresh_deck_list(list_selector, !(immutable));
 }
 
 function add_card_to_analyze(card_id){
@@ -256,14 +336,20 @@ function create_remove_button(card_id){
 }
 
 // list selector passed by refresh_deck_list
-function remove_card_from_deck(remove_id, list_selector){
+function remove_card_from_deck(remove_id, list_selector, immutable){
   // remove from deck_array
   deck_array.splice(remove_id, 1);
   
   // refresh after removal
-  refresh_deck_list(list_selector, true);
+  refresh_deck_list(list_selector, !(immutable));
 }
 
-function change_position_in_deck(old_id, new_id){
+function remove_card_from_analyze(analyze_key, key, card, analyze_selector, deck_list_selector){
+  analyze_array[analyze_key].splice(key, 1);
+  add_card_to_deck(card, deck_list_selector, true);
+  refresh_analyze_list(analyze_selector, deck_list_selector);
+}
+
+function change_position_in_deck(old_id, new_id, mutable){
   deck_array.splice(new_id, 0, deck_array.splice(old_id, 1)[0]);
 }

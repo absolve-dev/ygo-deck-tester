@@ -1,26 +1,26 @@
 /*
  *= require jquery-ui/sortable
- *= require jquery-ui/droppable
  */
 
 
 /* deck list */
 div.deck_list{
-  width: 500px;
+  width: 400px;
 }
  
 ul.deck_list{
+  width:100%;
   padding: 0px;
 }
 
 li.deck_list_card{
-  width: 100%;
+  max-width: 100%;
   height:30px;
   padding: 5px;
   border: 1px solid black;
   list-style-type: none;
   background-color: white;
-  display: inline-block;
+  display: block;
 }
 
 h3.card_quantity{
@@ -46,12 +46,38 @@ div.quantity_buttons{
   margin-right: 5px;
 }
 
+/* add card form */
+
+form.add_card{
+  border: 1px solid black;
+  display: inline-block;
+  padding: 10px;
+}
+
 div.quantity_buttons button{
   width: 30px;
   height: 30px;
 }
 
-/* remove card styling */
+/* analyze */
+div.deck_analyze{
+  background-color:gray;
+  padding:20px;
+  min-height:100px;
+  min-width:400px;
+  display:inline-block;
+}
+ul.analyze_or{
+  background-color:lightblue;
+  padding:15px;
+  border:2px solid black;
+}
+
+.deck_analyze.analyze_hover, .analyze_or.analyze_hover{
+  background-color: yellow;
+}
+
+/* remove card button */
 
 div.remove_card{
   padding: 5px;
