@@ -1,0 +1,89 @@
+/*
+ *= require jquery-ui/sortable
+ */
+
+
+/* deck list */
+div.deck_list{
+  width: 400px;
+}
+ 
+ul.deck_list{
+  width:100%;
+  padding: 0px;
+}
+
+li.deck_list_card{
+  max-width: 100%;
+  height:30px;
+  padding: 5px;
+  border: 1px solid black;
+  list-style-type: none;
+  background-color: white;
+  display: block;
+}
+
+h3.card_quantity{
+  display:inline;
+  padding-right:10px;
+}
+
+/* add coloring for card types */
+li.deck_list_card.monster{
+  background-color:brown;
+}
+li.deck_list_card.spell{
+  background-color:green;
+}
+li.deck_list_card.trap{
+  background-color:purple;
+}
+
+/* plus/minus */
+div.quantity_buttons{
+  display:inline;
+  height:100%;
+  margin-right: 5px;
+}
+
+/* add card form */
+
+form.add_card{
+  border: 1px solid black;
+  display: inline-block;
+  padding: 10px;
+}
+
+div.quantity_buttons button{
+  width: 30px;
+  height: 30px;
+}
+
+/* analyze */
+div.deck_analyze{
+  background-color:gray;
+  padding:20px;
+  min-height:100px;
+  min-width:400px;
+  display:inline-block;
+}
+ul.analyze_or{
+  background-color:lightblue;
+  padding:15px;
+  border:2px solid black;
+}
+
+.deck_analyze.analyze_hover, .analyze_or.analyze_hover{
+  background-color: yellow;
+}
+
+/* remove card button */
+
+div.remove_card{
+  padding: 5px;
+  float: right;
+  border: 1px solid black;
+  margin-left: 20px;
+  cursor: pointer;
+  display: block;
+}

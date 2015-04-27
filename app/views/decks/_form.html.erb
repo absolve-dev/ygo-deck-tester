@@ -1,0 +1,56 @@
+<%= form_for(@deck) do |f| %>
+  <% if @deck.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@deck.errors.count, "error") %> prohibited this deck from being saved:</h2>
+
+      <ul>
+      <% @deck.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :owner %><br>
+    <%= f.number_field :owner %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :contents %><br>
+    <%= f.hidden_field :contents %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br>
+    <%= f.text_field :notes %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<div class="deck_add">
+
+</div>
+
+<div class="deck_list">
+
+</div>
+
+<script>
+  $(document).ready(function(){
+    deck_interface_edit('div.deck_add','div.deck_list');
+    
+    // add persistence json on form submission
+    $('form.edit_deck, form.new_deck').on('submit', function(){
+        var deck_json = JSON.stringify(deck_array);
+        if(deck_json){
+          $('input#deck_contents').val(deck_json);
+        }
+    });
+  });
+  
+</script>

@@ -1,0 +1,28 @@
+<h1>Analyze Deck</h1>
+
+<div class="deck_list">
+
+</div>
+
+<div class="deck_analyze">
+  
+</div>
+
+<script>
+  var deck_array = [];
+  var deck_string = '<%= raw @deck.contents %>';
+  if(deck_string){
+    deck_array = JSON.parse(deck_string);
+  }
+  
+  var analyze_array = [];
+  
+  $(document).ready(function(){
+    deck_interface_analyze('div.deck_list', 'div.deck_analyze');
+  });
+</script>
+
+<div style="block">
+<%= link_to 'Edit', edit_deck_path(@deck) %> | 
+<%= link_to 'Back', decks_path %>
+</div>
