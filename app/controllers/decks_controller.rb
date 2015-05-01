@@ -67,7 +67,12 @@ class DecksController < ApplicationController
     respond_to do |format|
       format.html { render :analyze }
       format.json do
+        deck_array = JSON.parse(@deck.contents)
+        desired_array = JSON.parse(params[:analyze])
         
+        # chance is in percentage points
+        result = {'chance':0}
+                
         render json: result
       end
     end

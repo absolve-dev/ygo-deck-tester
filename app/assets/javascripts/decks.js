@@ -115,6 +115,8 @@ function deck_interface_analyze(list_selector, find_selector){
       // remove card from deck list
       remove_card_from_deck(card_id, list_selector, true);
       
+      refresh_analyze_results();
+      
       refresh_analyze_list(find_selector, list_selector);
     }
   });
@@ -215,8 +217,6 @@ function refresh_analyze_list(analyze_selector, deck_list_selector){
   $(h3).html('Enter combo pieces here - (AND)');
   $(h3).addClass('analyze_intro');
   
-  
-  
   $(analyze_selector).html('');
   $(analyze_selector).append(h3);
   
@@ -265,7 +265,10 @@ function refresh_analyze_list(analyze_selector, deck_list_selector){
             
             // remove card from deck list
             remove_card_from_deck(card_id, deck_list_selector, true);
-      
+            
+            // refresh results
+            refresh_analyze_results();
+            
             refresh_analyze_list(analyze_selector, deck_list_selector);
           }
         });
@@ -277,6 +280,26 @@ function refresh_analyze_list(analyze_selector, deck_list_selector){
   }
   
 }
+
+// uses analyze_array
+function refresh_analyze_results(){
+  var results_selector = 'div.analyze_results';
+  
+  $.ajax(document.URL + '.json', {
+    data: {
+      analyze: JSON.stringify(analyze_array)
+    },
+    method: "GET",
+    success: function(data){
+      var message = 'Chance of getting combo in opening hand: ' + data.chance + '%';
+      $(results_selector).html(message);
+    },
+    error: function(data){
+      $(results_selector).html('Error. Please refresh the page and try again.');
+    }
+  });
+}
+
 
 // helper functions
 
