@@ -144,25 +144,25 @@ class DecksController < ApplicationController
           
         end
         
-       
-          # remove from desired, if exists
-          
-          # recur for drawing non-desired
-          
-        # recur function
-          
-        
         total = 0;
         deck_array.each { |x|
           total += x['quantity']
         }
         
         # start digging
+        
+        result = [];
+        
         dig(desired_array, total, 5, [])
+        result[0] = @result[:chance].round(2)
+        
+        @result[:chance] = 0.0
+        dig(desired_array, total, 6, [])
+        result[1] = @result[:chance].round(2)
                   
         # 2 is a good number
-        @result[:chance] = @result[:chance].round(2)      
-        render json: @result
+          
+        render json: result
       end
     end
   end

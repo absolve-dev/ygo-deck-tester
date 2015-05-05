@@ -213,11 +213,13 @@ function refresh_deck_list(list_selector, mutable){
 }
 
 function refresh_analyze_list(analyze_selector, deck_list_selector){
+  
+  // clean me out
+  $(analyze_selector).html('');
+  
   var h3 = document.createElement('h3');
   $(h3).html('Enter combo pieces here - (AND)');
   $(h3).addClass('analyze_intro');
-  
-  $(analyze_selector).html('');
   $(analyze_selector).append(h3);
   
   // check for contents
@@ -291,7 +293,9 @@ function refresh_analyze_results(){
     },
     method: "GET",
     success: function(data){
-      var message = 'Chance of getting combo in opening hand: ' + data.chance + '%';
+      var message =
+      'Chance of combo going first: ' + data[0] + '%' + '<br>' +
+      'Chance of combo going second: ' + data[1] + '%';
       $(results_selector).html(message);
     },
     error: function(data){
