@@ -378,6 +378,9 @@ function remove_card_from_deck(remove_id, list_selector, immutable){
 
 function remove_card_from_analyze(analyze_key, key, card, analyze_selector, deck_list_selector){
   analyze_array[analyze_key].splice(key, 1);
+  if(analyze_array[analyze_key].length == 0){
+    analyze_array.splice(analyze_key, 1);
+  }
   add_card_to_deck(card, deck_list_selector, true);
   refresh_analyze_list(analyze_selector, deck_list_selector);
 }
