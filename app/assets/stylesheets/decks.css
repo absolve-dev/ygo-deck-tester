@@ -63,7 +63,7 @@ div.quantity_buttons button{
 div.deck_analyze{
   background-color:gray;
   padding:20px;
-  min-height:100px;
+  min-height:300px;
   min-width:400px;
   display:inline-block;
 }
