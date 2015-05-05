@@ -335,10 +335,6 @@ function add_card_to_deck(card, list_selector, immutable){
   refresh_deck_list(list_selector, !(immutable));
 }
 
-function add_card_to_analyze(card_id){
-  
-}
-
 // add a copy of a card
 function add_card_quantity(card_id, list_selector){
   deck_array[card_id].quantity += 1;
@@ -382,6 +378,7 @@ function remove_card_from_analyze(analyze_key, key, card, analyze_selector, deck
     analyze_array.splice(analyze_key, 1);
   }
   add_card_to_deck(card, deck_list_selector, true);
+  refresh_analyze_results();
   refresh_analyze_list(analyze_selector, deck_list_selector);
 }
 
