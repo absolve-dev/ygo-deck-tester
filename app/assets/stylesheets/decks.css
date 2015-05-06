@@ -61,7 +61,7 @@ div.quantity_buttons button{
 
 /* analyze */
 div.deck_analyze{
-  background-color:gray;
+  background-color:#eeeeee;
   padding:20px;
   min-height:300px;
   min-width:400px;
@@ -71,20 +71,16 @@ h3.analyze_intro{
   text-align: center;
   padding: 5px;
   margin: 0px;
-  border: 1px solid black;
-  background-color: #AFC4DB;
 }
 ul.analyze_or{
-  background-color:lightblue;
+  background-color:#add8e6;
   padding:15px;
   border:2px solid black;
 }
 li.analyze_intro{
   max-width: 100%;
   padding: 5px;
-  border: 1px solid black;
   list-style-type: none;
-  background-color: white;
   display: block;
   text-align:center;
 }

@@ -218,7 +218,7 @@ function refresh_analyze_list(analyze_selector, deck_list_selector){
   $(analyze_selector).html('');
   
   var h3 = document.createElement('h3');
-  $(h3).html('Enter combo pieces here - (AND)');
+  $(h3).html('Drag cards into this box - (ANDs)');
   $(h3).addClass('analyze_intro');
   $(analyze_selector).append(h3);
   
@@ -237,7 +237,7 @@ function refresh_analyze_list(analyze_selector, deck_list_selector){
         
         // create intro LI
         var intro_li = document.createElement('li');
-        $(intro_li).html('Add desired cards in this box (OR)');
+        $(intro_li).html('Drag substitutes/searchers into this box - (ORs)');
         $(intro_li).addClass('analyze_intro');
         // add intro LI
         $(current_ul).append(intro_li);
@@ -251,7 +251,17 @@ function refresh_analyze_list(analyze_selector, deck_list_selector){
           });
           $(current_li).append(remove_button);
           
+          // add or li
+          var or_li = document.createElement('li');
+          $(or_li).html('OR');
+          $(or_li).addClass('or');
+          $(or_li).css('text-align', 'center');
+          $(or_li).css('width', '100%');
+          $(or_li).css('list-style-type', 'none');
+          $(or_li).css('padding', '5px');
+          
           $(current_ul).append(current_li);
+          $(current_ul).append(or_li);
         });
         
         $(current_ul).droppable({
@@ -275,10 +285,25 @@ function refresh_analyze_list(analyze_selector, deck_list_selector){
           }
         });
         
+          
+        
         $(analyze_selector).append(current_ul);
+        
+        // add AND div
+        var and_div = document.createElement('h3');
+        $(and_div).html('AND');
+        $(and_div).addClass('and');
+        $(and_div).css('text-align', 'center');
+        $(and_div).css('width', '100%');
+        $(analyze_selector).append(and_div);
       }
       
     });
+    // remove trailing and
+    $(analyze_selector + ' h3.and:last-child').remove();
+    
+    // remove trailing ors
+    $('ul.analyze_or li.or:last-child').remove();
   }
   
 }
