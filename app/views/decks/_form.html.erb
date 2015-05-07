@@ -46,9 +46,18 @@
     
     // add persistence json on form submission
     $('form.edit_deck, form.new_deck').on('submit', function(){
-        var deck_json = JSON.stringify(deck_array);
-        if(deck_json){
+        var deck_count = 0;
+        // check for 40 cards
+        Object.keys(deck_array).forEach(function(key){
+          deck_count += deck_array[key].quantity;
+        });
+        
+        if(deck_count <= 60 && deck_count >= 40){
+          var deck_json = JSON.stringify(deck_array);
           $('input#deck_contents').val(deck_json);
+        }else{
+          alert('Please enter a deck with 40 to 60 cards');
+          return false;
         }
     });
   });
