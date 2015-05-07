@@ -11,6 +11,7 @@ div.deck_list{
 ul.deck_list{
   width:100%;
   padding: 0px;
+  display:block;
 }
 
 li.deck_list_card{
@@ -29,14 +30,29 @@ h3.card_quantity{
 }
 
 /* add coloring for card types */
-li.deck_list_card.monster{
+li.deck_list_card.monster, div.monster_total{
   background-color:brown;
 }
-li.deck_list_card.spell{
+li.deck_list_card.spell, div.spell_total{
   background-color:green;
 }
-li.deck_list_card.trap{
+li.deck_list_card.trap, div.trap_total{
   background-color:purple;
+}
+
+// deck totals 
+div.deck_totals{
+  margin-top:20px;
+  width:160px;
+  height:40px;
+  display:block;
+}
+
+div.deck_totals div{
+  width:30px;
+  height:30px;
+  padding:5px;
+  display:inline-block;
 }
 
 /* plus/minus */

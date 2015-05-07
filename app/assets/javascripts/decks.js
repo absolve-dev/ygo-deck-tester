@@ -131,10 +131,30 @@ function refresh_deck_list(list_selector, mutable){
   var deck_ul = document.createElement('ul');
   $(deck_ul).addClass('deck_list');
   
+  // init totals
+  var monster_total = 0;
+  var spell_total = 0;
+  var trap_total = 0;
+  var deck_total = 0;
+  
   // add cards
   Object.keys(deck_array).forEach(function(key){
     // create card li
     var card_li = create_card_li(deck_array[key],key);
+    
+    // add to totals
+    switch( (deck_array[key].type).toLowerCase() ){
+      case 'monster':
+        monster_total += deck_array[key].quantity;
+        break;
+      case 'spell':
+        spell_total += deck_array[key].quantity;
+        break;
+      case 'trap':
+        trap_total += deck_array[key].quantity;
+        break;
+    }
+    deck_total += deck_array[key].quantity;
     
     // add logic for no immutable
     if(mutable){
@@ -209,7 +229,38 @@ function refresh_deck_list(list_selector, mutable){
       refresh_deck_list(list_selector, mutable);
     }    
   });
-  $(list_selector).html( deck_ul );  
+  $(list_selector).html( deck_ul );
+  
+  // prepend totals div
+  var totals_div = document.createElement('div');
+  $(totals_div).addClass('deck_totals');
+  
+  // monsters
+  var monster_div = document.createElement('div');
+  $(monster_div).addClass('monster_total');
+  $(monster_div).html(monster_total);
+  $(totals_div).append(monster_div);
+  
+  // spells
+  var spell_div = document.createElement('div');
+  $(spell_div).addClass('spell_total');
+  $(spell_div).html(spell_total);
+  $(totals_div).append(spell_div);
+  
+  // traps
+  var trap_div = document.createElement('div');
+  $(trap_div).addClass('trap_total');
+  $(trap_div).html(trap_total);
+  $(totals_div).append(trap_div);
+  
+  // deck
+  var deck_total_div = document.createElement('div');
+  $(deck_total_div).addClass('all_total');
+  $(deck_total_div).html(deck_total);
+  $(totals_div).append(deck_total_div);
+  
+  $(list_selector).prepend(totals_div);
+  
 }
 
 function refresh_analyze_list(analyze_selector, deck_list_selector){
