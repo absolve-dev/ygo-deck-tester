@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   # Static pages are below
   get '/' => 'static_pages#home'
   get '/about/' => 'static_pages#about'
+  get '/how/' => 'static_pages#how'
 
   resources :decks
   get 'decks/:id/analyze' => 'decks#analyze', :as => :analyze
