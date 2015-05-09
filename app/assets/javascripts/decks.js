@@ -60,15 +60,19 @@ function deck_interface_edit(add_selector, list_selector){
   // add submit hook
   $(add_form).on('submit', function(){
     var new_card_name = name_input.value;
-    var new_card_qty = quantity_select.value;
-    var new_card_qty_int = parseInt(new_card_qty);
-    var new_card_type = type_select.value;
-    var card = {
-      name: new_card_name,
-      quantity: new_card_qty_int,
-      type: new_card_type
-    };
-    add_card_to_deck(card, list_selector);
+    if(new_card_name !== ''){
+      var new_card_qty = quantity_select.value;
+      var new_card_qty_int = parseInt(new_card_qty);
+      var new_card_type = type_select.value;
+      var card = {
+        name: new_card_name,
+        quantity: new_card_qty_int,
+        type: new_card_type
+      };
+      add_card_to_deck(card, list_selector);
+    }else{
+      alert('Please enter a card name');
+    }
   });
   
   // place form in add div
