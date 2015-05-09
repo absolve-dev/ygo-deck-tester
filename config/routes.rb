@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/' => 'static_pages#home'
   get '/about/' => 'static_pages#about'
   # get '/how/' => 'static_pages#how'
+  get '/contact/' => 'static_pages#contact'
 
   resources :decks
   get 'decks/:id/analyze' => 'decks#analyze', :as => :analyze
