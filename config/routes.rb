@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
-  get 'static_pages/home'
 
-  get 'static_pages/about'
+  # Static pages are below
+  get '/' => 'static_pages#home'
+  get '/about/' => 'static_pages#about'
 
   resources :decks
   get 'decks/:id/analyze' => 'decks#analyze', :as => :analyze
