@@ -6,6 +6,12 @@
   
   <%= javascript_include_tag 'application', params[:controller] %>
   
+  <%=
+    # include controller-action JS if it exists
+    if( not DeckTester::Application.assets.find_asset(params[:controller] + '-' + params[:action] + '.js').nil? )
+      javascript_include_tag params[:controller] + '-' + params[:action]
+    end
+  %>
   
   <%= csrf_meta_tags %>
 </head>
@@ -14,11 +20,6 @@
   <%= yield %>
 
 
-  <%=
-    # include controller-action JS if it exists
-    if( not DeckTester::Application.assets.find_asset(params[:controller] + '-' + params[:action] + '.js').nil? )
-      javascript_include_tag params[:controller] + '-' + params[:action]
-    end
-  %>
+  
 </body>
 </html>
