@@ -2,6 +2,7 @@
   <div ng-controller="ng_c_deck_analyze">
     <div class="row">
       <h1>Analyze Deck</h1>
+      <div class="row">
       <div class="col-xs-4">
         <ul class="deck_list">
           <li ng-repeat="card in deck" class="card {{ card.type.toLowerCase() }}" card_quantity="{{ card.quantity }}" card_name="{{ card.name }}" ng-cloak>
@@ -36,8 +37,9 @@
       <div class="col-xs-3">
       </div>
     </div>
-    <%= link_to 'Edit', edit_deck_path(@deck) %> | 
-    <%= link_to 'Back', decks_path %>
+      <%= link_to 'Edit', edit_deck_path(@deck) %> | 
+      <%= link_to 'Back', decks_path %>
+      </div>
   </div>
 </div>
 
