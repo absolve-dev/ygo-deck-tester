@@ -1,4 +1,7 @@
 //= require angular
+//= require jquery-ui/sortable
+//= require jquery-ui/droppable
+//
 // leave it to action-level JS to initialize:
 //   deck_array
 //   analyze_array
