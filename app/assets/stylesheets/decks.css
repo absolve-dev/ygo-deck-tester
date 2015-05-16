@@ -1,8 +1,7 @@
-ul.deck_list{
-  margin-top: 10px;
+ul.deck_list, ul.analyze_list{
   padding:0px;
 }
-ul.deck_list li{
+ul.deck_list li, ul.analyze_list li{
   max-width: 100%;
   height:40px;
   line-height:28px;
@@ -14,7 +13,7 @@ ul.deck_list li{
   border: 1px solid black;
   border-bottom: none;
 }
-ul.deck_list li:last-child{
+ul.deck_list li:last-child, ul.analyze_list li:last-child{
   border-bottom: 1px solid black;
 }
 
@@ -31,12 +30,43 @@ button.quantity{
 }
 
 /* add coloring for card types */
-ul.deck_list li.monster{
+li.card.monster{
   background-color:brown;
 }
-ul.deck_list li.spell{
+li.card.spell{
   background-color:green;
 }
-ul.deck_list li.trap{
+li.card.trap{
   background-color:purple;
+}
+
+/* analyze screen */
+ul.analyze_list{
+  padding: 20px;
+  background-color: lightblue;
+}
+.analyze_drop{
+  width:100%;
+  min-height:400px;
+  background-color:gray;
+  text-align:center;
+  padding:10px;
+}
+.analyze_drop h3{
+  margin:0px 0px 10px;
+}
+.analyze_list.analyze_hover{
+  background-color:yellow;
+}
+li.or_indicator{
+  height:20px;
+}
+li.or_indicator h4{
+  margin:0px;
+}
+ul.analyze_list li:last-child{
+  display:none;
+}
+.analyze_drop div:last-child{
+  display:none;
 }
