@@ -58,7 +58,7 @@ ng_deck_test.controller('ng_c_deck_list', function($scope){
       var deck_json = angular.toJson($scope.deck);
       $('input#f_contents').val(deck_json);
     }else{
-      alert('Please enter a deck with 40 to 60 cards');
+      alert('Please enter a deck with 40 to 60 cards.');
       e.preventDefault();
     }
   };
