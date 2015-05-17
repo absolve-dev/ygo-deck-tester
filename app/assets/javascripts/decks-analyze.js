@@ -4,6 +4,8 @@ ng_deck_test.controller('ng_c_deck_analyze', function($scope){
   $scope.analyze = [];
   $scope.a_blacklist = [];
   
+  $scope.deck_displace = 0;
+  
   $scope.results_first = false;
   $scope.results_second = false;
   
@@ -31,8 +33,8 @@ ng_deck_test.controller('ng_c_deck_analyze', function($scope){
     if( find_card_index($scope.a_blacklist, card.name) === false ){
       $scope.analyze.push([card]);
       $scope.$apply();
-      add_card_to_blacklist(card.name);
       init_or_boxes();
+      add_card_to_blacklist(card.name);
     }else{
       alert('Cannot add a card already in the analysis.');
     }
@@ -41,8 +43,8 @@ ng_deck_test.controller('ng_c_deck_analyze', function($scope){
     if( find_card_index($scope.a_blacklist, card.name) === false ){
       $scope.analyze[index].push(card);
       $scope.$apply();
-      add_card_to_blacklist(card.name);
       init_or_boxes();
+      add_card_to_blacklist(card.name);
     }else{
       alert('Cannot add a card already in the analysis.');
     }
@@ -53,21 +55,21 @@ ng_deck_test.controller('ng_c_deck_analyze', function($scope){
     var analyze_index = $( e.currentTarget ).parent().parent().attr('analyze_index');
     var remove_i = find_card_index($scope.analyze[analyze_index], c_name);
     $scope.analyze[analyze_index].splice(remove_i, 1);
-    remove_card_from_blacklist(c_name);
     // splice empty
     if( $scope.analyze[analyze_index].length == 0){
       $scope.analyze.splice(analyze_index, 1);
     }
+    remove_card_from_blacklist(c_name);
   };
   
   function add_card_to_blacklist(c_name){
     $scope.a_blacklist.push({name:c_name});
-    refresh_analyze_results();
+    $scope.refresh_analyze_results();
   }
   function remove_card_from_blacklist(c_name){
     var remove_i = find_card_index($scope.a_blacklist, c_name);
     $scope.a_blacklist.splice(remove_i, 1);
-    refresh_analyze_results();
+    $scope.refresh_analyze_results();
   }
   
   function init_or_boxes(){
@@ -86,15 +88,18 @@ ng_deck_test.controller('ng_c_deck_analyze', function($scope){
     });
   }
   
-  function refresh_analyze_results(){
+  $scope.refresh_analyze_results = function(){
+    var data_send = {analyze: JSON.stringify($scope.analyze)};
+    if($scope.deck_displace){
+      data_send['deck_displace'] = $scope.deck_displace;
+    }
     $.ajax(document.URL + '.json', {
-      data: {
-        analyze: JSON.stringify($scope.analyze)
-      },
+      data: data_send,
       method: "GET",
       success: function(data){
         $scope.results_first = data[0];
         $scope.results_second = data[1];
+        $scope.$apply();
       },
       error: function(data){
         alert('Error. Please refresh the page and try again.');
