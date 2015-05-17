@@ -1,44 +1,23 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Owner:</strong>
-  <%= @deck.owner %>
-</p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @deck.name %>
-</p>
-
-<p>
-  <strong>Contents:</strong>
-  <%= @deck.contents %>
-</p>
-
-<p>
-  <strong>Notes:</strong>
-  <%= @deck.notes %>
-</p>
-
-<div class="deck_list">
-
+<div class="container" ng-app="ng_app_deck_test">
+  <div class="row" ng-controller="ng_c_deck_list">
+    <div class="col-xs-5">
+      <h1><%= @deck.name %></h1>
+      <ul class="deck_list">
+        <li ng-repeat="card in deck" class="card {{ card.type.toLowerCase() }}" card_quantity="{{ card.quantity }}" card_name="{{ card.name }}" ng-cloak>
+          {{ card.quantity }} {{ card.name }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <%= link_to 'Analyze', analyze_path(@deck) %> | 
+  <%= link_to 'Edit', edit_deck_path(@deck) %> |
+  <%= link_to 'Back', decks_path %>
 </div>
+
+
 
 <script>
   
-  var deck_array = [];
-  
-  var deck_string = '<%= raw @deck.contents %>';
-  if(deck_string){
-    deck_array = JSON.parse(deck_string);
-  }
-  
-  $(document).ready(function(){
-    deck_interface_show('div.deck_list');
-  });
+  var deck_array = <%= raw @deck.contents %>;
   
 </script>
-
-<%= link_to 'Analyze', analyze_path(@deck) %> | 
-<%= link_to 'Edit', edit_deck_path(@deck) %> |
-<%= link_to 'Back', decks_path %>

@@ -1,35 +1,57 @@
-<h1>Analyze Deck</h1>
-
-<div style="display:inline-block;">
-  <div class="deck_list" style="display:inline-block; float:left;">
-
-  </div>
-  <div style="display:inline-block; float:left; margin-top:13px; margin-left:20px;">
-    <div class="deck_analyze">
-  
+<div class="container" ng-app="ng_app_deck_test">
+  <div ng-controller="ng_c_deck_analyze">
+    <div class="row">
+      <h1>Analyze Deck</h1>
+      <div class="row">
+      <div class="col-xs-4">
+        <form class="form-inline" ng-submit="refresh_analyze_results()" style="margin-bottom:10px;">
+          <div class="form-group">
+            <input type="text" ng-model="deck_displace">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="form-control">Set Deck Displacement</button>
+          </div>
+        </form>
+        <ul class="deck_list">
+          <li ng-repeat="card in deck" class="card {{ card.type.toLowerCase() }}" card_quantity="{{ card.quantity }}" card_name="{{ card.name }}" ng-cloak>
+            {{ card.quantity }} {{ card.name }}
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-5">
+        <div class="analyze_drop">
+          <h3>Drag cards into this box - (ANDs)</h3>
+          <ul ng-repeat-start="analysis in analyze track by $index" class="analyze_list" analyze_index="{{ $index }}">
+            <li>
+              Drag substitutes/searchers into this box - (ORs)
+            </li>
+            <li ng-repeat-start="card in analysis" class="card {{ card.type.toLowerCase() }}" card_name="{{ card.name }}">
+              {{ card.name }} 
+              <button ng-click="remove_card_from_analyze($event)">Remove</button>
+            </li>
+            <li class="or_indicator" ng-repeat-end>
+              <b>Or</b>
+            </li>
+          </ul>
+          <div class="and_indicator" ng-repeat-end>
+            <h4>And</h4>
+          </div>
+        </div>
+        <div ng-show="results_first && results_second">
+          Chances of combo going first: {{ results_first }}% <br>
+          Chances of combo going second: {{ results_second }}%
+        </div>
+      </div>
+      <div class="col-xs-3">
+      </div>
     </div>
-
-    <div class="analyze_results">
-  
-    </div>
+      <%= link_to 'Edit', edit_deck_path(@deck) %> | 
+      <%= link_to 'Back', decks_path %>
+      </div>
   </div>
 </div>
 
 <script>
-  var deck_array = [];
-  var deck_string = '<%= raw @deck.contents %>';
-  if(deck_string){
-    deck_array = JSON.parse(deck_string);
-  }
-  
-  var analyze_array = [];
-  
-  $(document).ready(function(){
-    deck_interface_analyze('div.deck_list', 'div.deck_analyze');
-  });
+  var deck_array = <%= raw @deck.contents %>;
 </script>
 
-<div style="block">
-<%= link_to 'Edit', edit_deck_path(@deck) %> | 
-<%= link_to 'Back', decks_path %>
-</div>

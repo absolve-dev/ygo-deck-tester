@@ -1,65 +1,67 @@
-<%= form_for(@deck) do |f| %>
-  <% if @deck.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@deck.errors.count, "error") %> prohibited this deck from being saved:</h2>
-
-      <ul>
-      <% @deck.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+<div class="row" ng-controller="ng_c_deck_list">
+  <div class="col-xs-5">
+    <% if @deck.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@deck.errors.count, "error") %> prohibited this deck from being saved:</h2>
+        <ul>
+        <% @deck.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <div>
+      <form class="form-inline" ng-submit="add_card_to_deck()" style="margin-bottom:10px;">
+        <div class="form-group">
+          <select class="form-control" ng-model="card_quantity">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <input type="text" placeholder="Card Name" class="form-control" ng-model="card_name">
+        </div>
+        <div class="form-group">
+          <select class="form-control" ng-model="card_type">
+            <option>Monster</option>
+            <option>Spell</option>
+            <option>Trap</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="form-control">Add Card</button>
+        </div>
+      </form>
+      <ul class="deck_list">
+        <li ng-repeat="card in deck" class="card {{ card.type.toLowerCase() }}" card_quantity="{{ card.quantity }}" card_name="{{ card.name }}" ng-cloak>
+          {{ card.quantity }} {{ card.name }}
+          <button ng-click="remove_card_from_deck($event)">Remove</button>
+          <button ng-click="plus_card_quantity($event)" class="quantity">+</button>
+          <button ng-click="minus_card_quantity($event)" class="quantity">-</button>
+        </li>
       </ul>
     </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :owner %><br>
-    <%= f.number_field :owner %>
   </div>
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :contents %><br>
-    <%= f.hidden_field :contents %>
-  </div>
-  <div class="field">
-    <%= f.label :notes %><br>
-    <%= f.text_field :notes %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
-
-<div class="deck_add">
-
-</div>
-
-<div class="deck_list">
-
-</div>
-
-<script>
-  $(document).ready(function(){
-    deck_interface_edit('div.deck_add','div.deck_list');
+  <div class="col-xs-3">
+    <h2>Deck Info</h2>
+    <%= form_for(@deck, :html => { "ng-submit" => "deck_check($event)"} ) do |f| %>
+      <div class="form-group">
+        Deck Name<br>
+        <%= f.text_field(:name, class: "form-control", id: "deck_name") %>
+      </div>
+      <div class="form-group" style="width:100%;">
+        Deck Notes<br>
+        <%= f.text_area(:notes, class: "form-control", id: "deck_notes", style: "resize:none;", rows: "4") %>
+      </div>
+      <div class="form-group">
+        <%= f.submit(class: "form-control") %>
+      </div>
     
-    // add persistence json on form submission
-    $('form.edit_deck, form.new_deck').on('submit', function(){
-        var deck_count = 0;
-        // check for 40 cards
-        Object.keys(deck_array).forEach(function(key){
-          deck_count += deck_array[key].quantity;
-        });
-        
-        if(deck_count <= 60 && deck_count >= 40){
-          var deck_json = JSON.stringify(deck_array);
-          $('input#deck_contents').val(deck_json);
-        }else{
-          alert('Please enter a deck with 40 to 60 cards');
-          return false;
-        }
-    });
-  });
-  
-</script>
+      <%= f.hidden_field(:owner, id: "f_owner") %>
+      <%= f.hidden_field(:contents, id: "f_contents") %>
+
+    <% end %>
+  </div>
+</div>

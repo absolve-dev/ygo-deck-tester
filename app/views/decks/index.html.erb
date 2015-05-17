@@ -1,34 +1,27 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Listing Decks</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Owner</th>
-      <th>Name</th>
-      <th>Contents</th>
-      <th>Notes</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @decks.each do |deck| %>
-      <tr>
-        <td><%= deck.owner %></td>
-        <td><%= deck.name %></td>
-        <td><%= deck.contents %></td>
-        <td><%= deck.notes %></td>
-        <td><%= link_to 'Analyze', analyze_path(deck) %></td>
-        <td><%= link_to 'Show', deck %></td>
-        <td><%= link_to 'Edit', edit_deck_path(deck) %></td>
-        <td><%= link_to 'Destroy', deck, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Deck', new_deck_path %>
+<div class="container">
+  <div class="row">
+    <h1>Listing Decks</h1>
+    <p id="notice"><%= notice %></p>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Owner</th>
+          <th>Name</th>
+          <th>Notes</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @decks.each do |deck| %>
+          <tr>
+            <td><%= deck.owner %></td>
+            <td><%= deck.name %></td>
+            <td><%= deck.notes %></td>
+            <td><%= link_to 'Analyze', analyze_path(deck) %> | <%= link_to 'Show', deck %> | <%= link_to 'Edit', edit_deck_path(deck) %> | <%= link_to 'Destroy', deck, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to 'New Deck', new_deck_path %>
+  </div>
+</div>

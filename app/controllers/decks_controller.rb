@@ -148,11 +148,13 @@ class DecksController < ApplicationController
         deck_array.each { |x|
           total += x['quantity']
         }
+        if(params[:deck_displace] && params[:deck_displace].to_i)
+          total -= params[:deck_displace].to_i
+        end
         
         # start digging
         
         result = [];
-        
         dig(desired_array, total, 5, [])
         result[0] = @result[:chance].round(2)
         
