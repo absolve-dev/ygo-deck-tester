@@ -21,7 +21,7 @@
       <div class="col-xs-5">
         <div class="analyze_drop">
           <h3>Drag cards into this box - (ANDs)</h3>
-          <ul ng-repeat-start="analysis in analyze track by $index" class="analyze_list" analyze_index="{{ $index }}">
+          <ul ng-repeat-start="analysis in analyze track by $index" class="analyze_list" analyze_index="{{ $index }}" ng-cloak>
             <li>
               Drag substitutes/searchers into this box - (ORs)
             </li>
@@ -37,7 +37,7 @@
             <h4>And</h4>
           </div>
         </div>
-        <div ng-show="results_first && results_second">
+        <div ng-show="results_first && results_second" ng-cloak>
           Chances of combo going first: {{ results_first }}% <br>
           Chances of combo going second: {{ results_second }}%
         </div>
