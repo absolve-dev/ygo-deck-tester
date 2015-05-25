@@ -181,6 +181,8 @@ class DecksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def deck_params
-      params.require(:deck).permit(:owner, :name, :contents, :notes)
+      deck_data = params.require(:deck).permit(:name, :contents, :notes)
+      deck_data[:owner] = current_user.id
+      deck_data
     end
 end
