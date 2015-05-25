@@ -1,6 +1,7 @@
 class DecksController < ApplicationController
   before_action :set_deck, only: [:show, :edit, :update, :destroy, :analyze]
-
+  before_action :authenticate_user!, :except => [:index, :show, :analyze]
+  
   # GET /decks
   # GET /decks.json
   def index
@@ -19,6 +20,7 @@ class DecksController < ApplicationController
 
   # GET /decks/1/edit
   def edit
+    
   end
 
   # POST /decks
