@@ -7,6 +7,11 @@ class DecksController < ApplicationController
   def index
     @decks = Deck.all
   end
+  
+  # GET /my_decks
+  def my_decks
+    @my_decks = Deck.where(owner: current_user.id)
+  end
 
   # GET /decks/1
   # GET /decks/1.json

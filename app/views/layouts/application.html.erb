@@ -28,6 +28,11 @@
           <li>
             <a href="/decks">Decks</a>
           </li>
+          <% if user_signed_in? %>
+          <li>
+            <%= link_to 'My Decks', my_decks_path() %>
+          </li>
+          <% end %>
           <li>
             <a href="/about">About</a>
           </li>
