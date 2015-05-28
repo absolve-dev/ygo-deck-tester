@@ -53,6 +53,22 @@
         Deck Notes<br>
         <%= f.text_area(:notes, class: "form-control", id: "deck_notes", style: "resize:none;", rows: "4") %>
       </div>
+      <div class="input-group">
+        <span class="input-group-addon">
+          <%= f.radio_button(:visibility, 'public', checked: "checked") %>
+        </span>
+        <div class="form-control">
+          Public
+        </div>
+      </div>
+      <div class="input-group" id="last">
+        <span class="input-group-addon">
+          <%= f.radio_button(:visibility, 'private') %>
+        </span>
+        <div class="form-control">
+          Private
+        </div>
+      </div>
       <div class="form-group">
         <%= f.submit(class: "form-control") %>
       </div>

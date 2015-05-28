@@ -28,6 +28,12 @@ li.card button{
 button.quantity{
   width:25px;
 }
+.input-group{
+  margin-bottom:3px;
+}
+div.input-group#last {
+  margin-bottom:15px;
+}
 
 /* add coloring for card types */
 li.card.monster{

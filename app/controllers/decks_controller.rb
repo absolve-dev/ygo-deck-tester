@@ -5,7 +5,7 @@ class DecksController < ApplicationController
   # GET /decks
   # GET /decks.json
   def index
-    @decks = Deck.all
+    @decks = Deck.where(visibility: 'public')
   end
   
   # GET /my_decks
@@ -186,7 +186,7 @@ class DecksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def deck_params
-      deck_data = params.require(:deck).permit(:name, :contents, :notes)
+      deck_data = params.require(:deck).permit(:name, :contents, :notes, :visibility)
       deck_data[:owner] = current_user.id
       deck_data
     end
