@@ -5,19 +5,19 @@
       <h1>Account Login</h1>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="form-group">
-          <%= f.label :email %><br />
-          <%= f.email_field :email, autofocus: true, class: "form-control" %>
+          <label for="<%= :email %>">Email address or username</label>
+          <%= f.text_field :login, autofocus: true, class: "form-control" %>
         </div>
         
         <div class="form-group">
-          <%= f.label :password %><br />
+          <%= f.label :password %>
           <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
         </div>
         
         <% if devise_mapping.rememberable? -%>
         <div class="input-group form-group">
           <span class="input-group-addon">
-            <%= f.check_box :remember_me%>
+            <%= f.check_box :remember_me %>
           </span>
           <%= f.label :remember_me, class: "form-control" %>
         </div>
