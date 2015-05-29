@@ -1,10 +1,16 @@
 class DecksController < ApplicationController
   before_action :set_deck, only: [:show, :edit, :update, :destroy, :analyze]
-
+  before_action :authenticate_user!, :except => [:index, :show, :analyze]
+  
   # GET /decks
   # GET /decks.json
   def index
-    @decks = Deck.all
+    @decks = Deck.where(visibility: 'public')
+  end
+  
+  # GET /my_decks
+  def my_decks
+    @my_decks = Deck.where(owner: current_user.id)
   end
 
   # GET /decks/1
@@ -19,6 +25,7 @@ class DecksController < ApplicationController
 
   # GET /decks/1/edit
   def edit
+    
   end
 
   # POST /decks
@@ -179,6 +186,8 @@ class DecksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def deck_params
-      params.require(:deck).permit(:owner, :name, :contents, :notes)
+      deck_data = params.require(:deck).permit(:name, :contents, :notes, :visibility)
+      deck_data[:owner] = current_user.id
+      deck_data
     end
 end
