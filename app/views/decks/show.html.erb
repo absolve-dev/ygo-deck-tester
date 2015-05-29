@@ -9,9 +9,11 @@
       </ul>
     </div>
   </div>
-  <%= link_to 'Analyze', analyze_path(@deck) %> | 
-  <%= link_to 'Edit', edit_deck_path(@deck) %> |
-  <%= link_to 'Back', decks_path %>
+  <%= link_to 'Analyze', analyze_path(@deck) %>
+  <% if user_signed_in? && current_user.id == @deck.owner.to_i %>
+   | <%= link_to 'Edit', edit_deck_path(@deck) %>
+  <% end %>
+   | <%= link_to 'Back', decks_path %>
 </div>
 
 
