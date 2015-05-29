@@ -23,7 +23,7 @@
               | <%= link_to 'Show', deck %>
               <% if user_signed_in? && current_user.id == deck.owner.to_i %>
               | <%= link_to 'Edit', edit_deck_path(deck) %>
-              | <%= link_to 'Destroy', deck, method: :delete, data: { confirm: 'Are you sure?' } %>
+              | <%= link_to 'Delete', deck, method: :delete, data: { confirm: 'Are you sure?' } %>
               <% end %>
             </td>
           </tr>
