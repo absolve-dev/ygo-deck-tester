@@ -2,7 +2,7 @@
   <div class="row">
     <h1>My Decks</h1>
     
-    <% if @my_decks %>
+    <% if @my_decks.count > 0 %>
     <table class="table">
       <thead>
         <tr>
@@ -21,6 +21,8 @@
         <% end %>
       </tbody>
     </table>
+    <% else %>
+      You have no decks available<br>
     <% end %>
     
     <%= link_to 'New Deck', new_deck_path %>
