@@ -16,7 +16,7 @@ end
 gem 'bootstrap-sass'
 
 # Use Devise for authentication
-gem 'devise'
+gem 'devise', '>= 3.5.1'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
